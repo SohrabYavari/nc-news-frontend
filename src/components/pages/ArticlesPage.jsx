@@ -1,40 +1,69 @@
+// lib imports
 import React, { useEffect, useState } from "react";
-import Card from "../global/Card";
-import { getArticles } from "../../utils/api";
+import { useParams, useNavigate } from "react-router-dom";
+
+// comps and utils imports
+import { getArticleById, getArticles } from "../../utils/api";
+import ArticleList from "../articles/ArticleList";
+import Article from "../articles/Article";
 
 export default function ArticlesPage() {
+  // useStates for articles
   const [ncArticles, setNcArticles] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+
+  // Params and navigation
+  const { article_id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const articles = await getArticles();
-        console.log(articles);
         setNcArticles(articles);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
     fetchArticles();
   }, []);
+
+  useEffect(() => {
+    if (article_id) {
+      const fetchSpecificArticle = async () => {
+        try {
+          const article = await getArticleById(article_id);
+          setSelectedArticle(article);
+        } catch (error) {
+          console.error(error);
+          navigate("/home/articles");
+        }
+      };
+      fetchSpecificArticle();
+    } else {
+      setSelectedArticle(null);
+    }
+  }, [article_id, navigate]);
+
+  const handleBackToList = () => {
+    navigate("/home/articles");
+  };
+
   return (
     <section id="articles">
-      {/* <ul className="pt-20 flex md:flex-row flex-col flex-wrap gap-5 md:w-2/4 mx-auto px-5"> */}
-      <ul className="pt-20 px-2 grid md:grid-cols-3 gap-5">
-        {ncArticles.map((article) => {
-          return <Card
-            key={article.article_id}
-            img={article.article_img_url}
-            title={article.title}
-            topic={article.topic}
-            author={article.author}
-            created_at={article.created_at}
-            votes={article.votes}
-            comment_count={article.comment_count}
-          />;
-        })}
-      </ul>
+      {selectedArticle ? (
+        <>
+          <button onClick={handleBackToList} className="mt-20 btn btn-wide btn-accent">
+            {`<---`} Back to Articles
+          </button>
+          <Article article={selectedArticle.article} />
+        </>
+      ) : (
+        <ul className="pt-40 px-2 grid md:grid-cols-3 gap-10">
+          <ArticleList articles={ncArticles} />
+        </ul>
+      )}
     </section>
   );
 }

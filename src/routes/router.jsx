@@ -6,11 +6,12 @@ import HomePage from "../components/pages/HomePage";
 export const router =
   createBrowserRouter([
     {
-      path: "/nc-news",
+      path: "/home",
       element: <App />,
       children: [
         {path: '', element: <HomePage />},
-        {path: '/nc-news/articles', element: <ArticlesPage />}
+        {path: '/home/articles', element: <ArticlesPage />},
+        {path: '/home/articles/:article_id', element: <ArticlesPage />}
       ]
     }
   ]);

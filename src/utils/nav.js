@@ -1,19 +1,19 @@
 export const navLinks = [
   {
     id: 1,
-    navLink: "/nc-news",
+    navLink: "/home",
     navName: "home",
     navIcon: "",
   },
   {
     id: 2,
-    navLink: "/nc-news/articles",
+    navLink: "/home/articles",
     navName: "articles",
     navIcon: "",
   },
   {
     id: 3,
-    navLink: "/nc-news/authors",
+    navLink: "/home/authors",
     navName: "authors",
     navIcon: "",
   },
