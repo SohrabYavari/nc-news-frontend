@@ -25,3 +25,16 @@ export const getArticleById = async (articleId) => {
     console.error('Error: ',error);
   }
 };
+
+export const getArticleComments = async (articleId) => {
+  try {
+    const response = await axios.get(apiUrl + `/api/articles/${articleId}/comments`)
+    return response.data
+  }
+  catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('axios error: ', error)
+    }
+    console.error('Error', error)
+  }
+}

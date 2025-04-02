@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Banner from "./components/global/Banner";
 import Navbar from "./components/global/Navbar";
 
 function App() {

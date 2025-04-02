@@ -4,7 +4,11 @@ import vote from "../../assets/vote.svg";
 import author from "../../assets/author.svg";
 import topic from "../../assets/topic.svg";
 
-export default function Article({ article }) {
+// Comps
+import ArticleComment from "../comments/ArticleComment";
+import CommentList from "../comments/CommentList";
+
+export default function Article({ article, comments }) {
   if (!article) return <p className="pt-20">Loading... </p>;
 
   const formattedDate = new Date(article.created_at).toLocaleDateString(
@@ -61,6 +65,9 @@ export default function Article({ article }) {
           </p>
         </div>
       </div>
+
+      <CommentList comments={comments}/>
+      {/* <ArticleComment comments={comments} /> */}
     </section>
   );
 }
