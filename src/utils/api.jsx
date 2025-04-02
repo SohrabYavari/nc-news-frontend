@@ -52,3 +52,18 @@ export const updateArticleVotes = async (articleId, articleVotes = 1) => {
     }
   }
 };
+
+export const postCommentOnArticle = async (articleId, username, body) => {
+  try {
+    const { data } = await axios.post(apiUrl + `/api/articles/${articleId}/comments`, {
+      username,
+      body,
+    });
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("axios Error: ", error);
+    }
+    console.error("Other Error: ", error);
+  }
+};

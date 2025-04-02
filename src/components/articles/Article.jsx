@@ -3,12 +3,12 @@ import CommentList from "../comments/CommentList";
 import ArticleDetails from "./ArticleDetails";
 import { getArticleComments } from "../../utils/api";
 import React, { useState, useEffect } from "react";
-
+import ArticleComment from "../comments/ArticleComment";
+import CommentForm from "../comments/CommentForm";
 
 export default function Article({ article }) {
   const [articleComment, setArticleComment] = useState([]);
 
-  
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -18,16 +18,16 @@ export default function Article({ article }) {
         console.error("Failed to fetch comments:", error);
       }
     };
-    
+
     fetchComments();
   }, [article.article_id]);
-  
-  if (!article) return <p className="pt-20">Loading... </p>;
 
+  if (!article) return <p className="pt-20">Loading... </p>;
 
   return (
     <div>
       <ArticleDetails article={article} />
+      <CommentForm article={article} />
       <CommentList comments={articleComment} />
     </div>
   );
