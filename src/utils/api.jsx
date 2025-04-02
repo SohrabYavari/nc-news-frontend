@@ -10,7 +10,7 @@ export const getArticles = async () => {
     if (axios.isAxiosError(error)) {
       console, error("axios err msg: ", error.message);
     }
-    console.error('Error: ',error);
+    console.error("Error: ", error);
   }
 };
 
@@ -22,19 +22,33 @@ export const getArticleById = async (articleId) => {
     if (axios.isAxiosError(error)) {
       console, error("axios err msg: ", error.message);
     }
-    console.error('Error: ',error);
+    console.error("Error: ", error);
   }
 };
 
 export const getArticleComments = async (articleId) => {
   try {
-    const response = await axios.get(apiUrl + `/api/articles/${articleId}/comments`)
-    return response.data
-  }
-  catch (error) {
+    const response = await axios.get(
+      apiUrl + `/api/articles/${articleId}/comments`
+    );
+    return response.data;
+  } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('axios error: ', error)
+      console.error("axios error: ", error);
     }
-    console.error('Error', error)
+    console.error("Error", error);
   }
-}
+};
+
+export const updateArticleVotes = async (articleId, articleVotes = 1) => {
+  try {
+    const response = await axios.patch(apiUrl + `/api/articles/${articleId}`, {
+      articleVotes,
+    });
+    return response.data.article;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(error);
+    }
+  }
+};

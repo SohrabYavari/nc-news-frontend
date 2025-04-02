@@ -6,7 +6,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getArticleById,
   getArticles,
-  getArticleComments,
 } from "../../utils/api";
 import ArticleList from "../articles/ArticleList";
 import Article from "../articles/Article";
@@ -15,7 +14,6 @@ export default function ArticlesPage() {
   // useStates for articles
   const [ncArticles, setNcArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [articleComment, setArticleComment] = useState([]);
 
   // Params and navigation
   const { article_id } = useParams();
@@ -55,21 +53,6 @@ export default function ArticlesPage() {
     navigate("/home/articles");
   };
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const data = await getArticleComments(article_id);
-        setArticleComment(data);
-      } catch (error) {
-        console.error("Failed to fetch comments:", error);
-      }
-    };
-
-    fetchComments();
-  }, [article_id]);
-
-
-
   return (
     <section id="articles">
       {selectedArticle ? (
@@ -82,7 +65,6 @@ export default function ArticlesPage() {
           </button>
           <Article
             article={selectedArticle.article}
-            comments={articleComment.comments}
           />
         </>
       ) : (
