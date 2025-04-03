@@ -67,3 +67,16 @@ export const postCommentOnArticle = async (articleId, username, body) => {
     console.error("Other Error: ", error);
   }
 };
+
+
+export const deleteCommentOnArticle = async (commentId) => {
+  try {
+    await axios.delete(apiUrl + `/api/comments/${commentId}`);
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("axios Error: ", error);
+    }
+    console.error("Other Error: ", error);
+  }
+};
