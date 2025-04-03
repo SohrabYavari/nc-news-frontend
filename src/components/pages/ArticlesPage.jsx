@@ -1,77 +1,48 @@
 // lib imports
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 
 // comps and utils imports
-import {
-  getArticleById,
-  getArticles,
-} from "../../utils/api";
+import { getArticles } from "../../utils/api";
 import ArticleList from "../articles/ArticleList";
-import Article from "../articles/Article";
+import { BounceLoader } from "react-spinners";
+import TopicsDropdown from "../topics/TopicsDropdown";
 
 export default function ArticlesPage() {
   // useStates for articles
   const [ncArticles, setNcArticles] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pageTopic, setPageTopic] = useState("");
 
-  // Params and navigation
-  const { article_id } = useParams();
-  const navigate = useNavigate();
-
+  // data fetching
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const articles = await getArticles();
+        const articles = await getArticles(pageTopic);
         setNcArticles(articles);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchArticles();
-  }, []);
+  }, [pageTopic]);
 
-  useEffect(() => {
-    if (article_id) {
-      const fetchSpecificArticle = async () => {
-        try {
-          const article = await getArticleById(article_id);
-          setSelectedArticle(article);
-        } catch (error) {
-          console.error(error);
-          navigate("/home/articles");
-        }
-      };
-      fetchSpecificArticle();
-    } else {
-      setSelectedArticle(null);
-    }
-  }, [article_id, navigate]);
-
-  const handleBackToList = () => {
-    navigate("/home/articles");
-  };
+  // loading spinner
+  if (loading) {
+    return (
+      <div className="flex w-ful h-screen justify-center items-center">
+        <BounceLoader />
+      </div>
+    );
+  }
 
   return (
-    <section id="articles">
-      {selectedArticle ? (
-        <>
-          <button
-            onClick={handleBackToList}
-            className="mt-20 btn btn-wide btn-accent"
-          >
-            {`<---`} Back to Articles
-          </button>
-          <Article
-            article={selectedArticle.article}
-          />
-        </>
-      ) : (
-        <ul className="pt-40 px-2 grid md:grid-cols-3 gap-10">
-          <ArticleList articles={ncArticles} />
-        </ul>
-      )}
+    <section id="articles" className="pt-20">
+      <TopicsDropdown setPageTopic={setPageTopic} />
+      <ul className="pt-20 px-2 grid md:grid-cols-3 gap-10">
+        <ArticleList articles={ncArticles} />
+      </ul>
     </section>
   );
 }

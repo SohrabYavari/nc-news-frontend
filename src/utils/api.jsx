@@ -2,7 +2,19 @@ import axios from "axios";
 
 const apiUrl = "https://nc-news-backend-769r.onrender.com";
 
-export const getArticles = async () => {
+export const getArticles = async (topic) => {
+  if (topic) {
+    try {
+      const response = await axios.get(apiUrl + `/api/articles?topic=${topic}`);
+      return response.data.articles;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console, error("axios err msg: ", error.message);
+      }
+      console.error("Error: ", error);
+    }
+  }
+
   try {
     const response = await axios.get(apiUrl + "/api/articles");
     return response.data.articles;
@@ -55,10 +67,13 @@ export const updateArticleVotes = async (articleId, articleVotes = 1) => {
 
 export const postCommentOnArticle = async (articleId, username, body) => {
   try {
-    const { data } = await axios.post(apiUrl + `/api/articles/${articleId}/comments`, {
-      username,
-      body,
-    });
+    const { data } = await axios.post(
+      apiUrl + `/api/articles/${articleId}/comments`,
+      {
+        username,
+        body,
+      }
+    );
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -67,7 +82,6 @@ export const postCommentOnArticle = async (articleId, username, body) => {
     console.error("Other Error: ", error);
   }
 };
-
 
 export const deleteCommentOnArticle = async (commentId) => {
   try {
@@ -78,5 +92,16 @@ export const deleteCommentOnArticle = async (commentId) => {
       console.error("axios Error: ", error);
     }
     console.error("Other Error: ", error);
+  }
+};
+
+export const getTopics = async () => {
+  try {
+    const { data } = await axios.get(apiUrl + `/api/topics`);
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios Error: ", error);
+    }
   }
 };

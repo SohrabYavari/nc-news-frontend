@@ -12,6 +12,33 @@ import topic from "../../assets/topic.svg";
 import { updateArticleVotes } from "../../utils/api";
 
 export default function ArticleDetails({ article }) {
+  // states for article votes
+  const [articleVote, setArticleVote] = useState(0);
+  const [hasVoted, setHasVoted] = useState(false);
+  
+  useEffect(() => {
+    if (article) {
+      setArticleVote(article.votes);
+      setHasVoted(false);
+  
+      try {
+        const votedArticles = JSON.parse(localStorage.getItem("votedArticles")) || [];
+        if (votedArticles.includes(article.article_id)) {
+          setHasVoted(true);
+        }
+      } catch (error) {
+        console.error("Error accessing localStorage:", error);
+        alert("Issue loading previous votes.");
+      }
+    }
+  }, [article]);
+
+  if (article.votes === null) {
+    article.votes = 0
+  }
+  
+  if (!article) return <p className="pt-20">Loading... </p>;
+  
   // date formatted for human readability
   const formattedDate = new Date(article.created_at).toLocaleDateString(
     "en-UK",
@@ -21,28 +48,7 @@ export default function ArticleDetails({ article }) {
       day: "numeric",
     }
   );
-  // states for article votes
-  const [articleVote, setArticleVote] = useState(article.votes);
-  const [hasVoted, setHasVoted] = useState(false);
 
-  useEffect(() => {
-    if (!article.article_id) return;
-
-    try {
-      const votedArticles =
-        JSON.parse(localStorage.getItem("votedArticles")) || [];
-      if (votedArticles.includes(article.article_id)) {
-        setHasVoted(true);
-      }
-    } catch (error) {
-      console.error("Error accessing localStorage:", error);
-      alert(
-        "There was an issue loading your previous votes. Please try again later."
-      );
-    }
-  }, [article?.article_id]);
-
-  if (!article) return <p className="pt-20">Loading... </p>;
 
   const handleVote = async () => {
     if (hasVoted) return;
@@ -53,7 +59,7 @@ export default function ArticleDetails({ article }) {
       setHasVoted(true);
 
       // Store vote in localStorage
-      // will change to vote is tored based on user potentially?
+      // will change to vote is stored based on user potentially?
       const votedArticles =
         JSON.parse(localStorage.getItem("votedArticles")) || [];
       votedArticles.push(article.article_id);
