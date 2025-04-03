@@ -7,12 +7,12 @@ import Article from "../components/articles/Article";
 export const router =
   createBrowserRouter([
     {
-      path: "/home",
+      path: "/nc-news/",
       element: <App />,
       children: [
         {path: '', element: <HomePage />},
-        {path: '/home/articles', element: <ArticlesPage />},
-        {path: '/home/articles/:article_id', element: <Article />}
+        {path: '/nc-news/articles', element: <ArticlesPage />},
+        {path: '/nc-news/articles/:article_id', element: <Article />}
       ]
     }
   ]);
