@@ -15,7 +15,7 @@ export default function ArticleList({ articles }) {
         topic={article.topic}
         author={article.author}
         created_at={article.created_at}
-        votes={article.votes}
+        votes={article.votes || 0}
       />
     </Link>
   ));

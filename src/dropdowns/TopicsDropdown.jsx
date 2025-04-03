@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTopics } from "../../utils/api";
+import { getTopics } from "../utils/api";
 
 export default function TopicsDropdown({ setPageTopic }) {
   const [topics, setTopics] = useState([]);

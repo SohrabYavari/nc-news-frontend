@@ -27,7 +27,7 @@ export default function Article() {
         try {
           const { article } = await getArticleById(article_id);
           setArticle(article);
-          setLoading(false)
+          setLoading(false);
         } catch (error) {
           console.error(error);
           navigate("/home/articles");
@@ -38,10 +38,6 @@ export default function Article() {
       setArticle(null);
     }
   }, [article_id, navigate]);
-
-  const handleBackToList = () => {
-    navigate("/home/articles");
-  };
 
   useEffect(() => {
     if (article_id) {
@@ -56,12 +52,20 @@ export default function Article() {
       fetchComments();
     }
   }, [article_id]);
-  
+
+  const handleBackToList = () => {
+    navigate("/home/articles");
+  };
+
   if (loading) {
-    return <div className="flex w-ful h-screen justify-center items-center"><BounceLoader /></div>;
+    return (
+      <div className="flex w-ful h-screen justify-center items-center">
+        <BounceLoader />
+      </div>
+    );
   }
-  
-    if (!article) return <p className="pt-20">No article found</p>;
+
+  if (!article) return <p className="pt-20">No article found</p>;
 
   return (
     <div>

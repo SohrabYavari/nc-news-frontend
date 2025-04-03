@@ -2,10 +2,24 @@ import axios from "axios";
 
 const apiUrl = "https://nc-news-backend-769r.onrender.com";
 
-export const getArticles = async (topic) => {
+export const getArticles = async (topic, sort_by, order = 'asc') => {
   if (topic) {
     try {
       const response = await axios.get(apiUrl + `/api/articles?topic=${topic}`);
+      return response;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console, error("axios err msg: ", error.message);
+      }
+      console.error("Error: ", error);
+    }
+  }
+
+  if (sort_by) {
+    try {
+      const response = await axios.get(
+        apiUrl + `/api/articles?topic=${topic}&sort_by=${sort_by}`
+      );
       return response.data.articles;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -15,8 +29,9 @@ export const getArticles = async (topic) => {
     }
   }
 
+
   try {
-    const response = await axios.get(apiUrl + "/api/articles");
+    const response = await axios.get(apiUrl + `/api/articles?order=${order}`);
     return response.data.articles;
   } catch (error) {
     if (axios.isAxiosError(error)) {
