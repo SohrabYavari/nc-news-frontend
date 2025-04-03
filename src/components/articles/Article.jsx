@@ -1,9 +1,10 @@
+// lib imports
+import React, { useState, useEffect } from "react";
+
 // Comps
 import CommentList from "../comments/CommentList";
 import ArticleDetails from "./ArticleDetails";
 import { getArticleComments } from "../../utils/api";
-import React, { useState, useEffect } from "react";
-import ArticleComment from "../comments/ArticleComment";
 import CommentForm from "../comments/CommentForm";
 
 export default function Article({ article }) {
