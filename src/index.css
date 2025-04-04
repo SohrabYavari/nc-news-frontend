@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: light --default, sunset --prefersdark, retro;
-  }
+  themes: wireframe --default, black --prefersdark;
+}

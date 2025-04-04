@@ -8,7 +8,7 @@ export default function ArticleList({ articles }) {
   }
 
   return articles.map((article) => (
-    <Link key={article.article_id} to={`/home/articles/${article.article_id}`}>
+    <Link key={article.article_id} to={`/nc-news/articles/${article.article_id}`}>
       <Card
         img={article.article_img_url}
         title={article.title}

@@ -10,7 +10,7 @@ export default function Card({ img, title, topic, author, created_at, votes }) {
   });
 
   return (
-    <div className="card md:h-[475px] p-1 w-full mx-auto bg-neutral text-accent hover:scale-105 transition-all duration-300">
+    <div className="card md:h-[475px] p-1 w-full mx-auto bg-neutral text-neutral-content hover:scale-105 transition-all duration-300">
       <div className="flex justify-end gap-[10%] p-2 border-b-2">
         <p className="flex gap-2 items-center">
           <img src={date} alt="date image" className="w-5" /> {formattedDate}
